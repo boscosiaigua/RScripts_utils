@@ -21,6 +21,8 @@ library(tidyr)
 
 setwd("C:/Alba/z_altres/CTFC_documents/timesheet")
 
+dir.create(file.path("output"), showWarnings = FALSE)
+
 # hores del fitxador en excel
 fitxador <- read_excel("Movimientos.xls", range = "B6:F372")
 
