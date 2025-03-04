@@ -82,9 +82,14 @@ diff_hours <- function(marcatge) {
 }
 
 # diferencia de hores del fitxador en format "hora decimal" a la columna "Horas"
-(fitx_dec <- fitx %>%
-  mutate(Horas = sapply(Marcatges, diff_hours, simplify = TRUE)) %>%
-  mutate(Horas = ifelse(Horas == "NA", "0", Horas)))
+(fitx_dec_real <- fitx %>%
+  mutate(Horas_real = sapply(Marcatges, diff_hours, simplify = TRUE)) %>%
+  mutate(Horas_real = ifelse(is.na(Horas_real), "0", Horas_real)))
+
+(fitx_dec <- fitx_dec_real %>%
+  mutate(Horas_real = as.numeric(Horas_real)) %>%  
+  mutate(Horas = ifelse(Horas_real > 10 & Horas_real < 999, 10, Horas_real)) %>%
+  select(-Horas_real))
 
 #convertir data a mes/dia
 fitx_dec_mes_dia <- fitx_dec %>%
@@ -99,6 +104,7 @@ fitx_dec_mes_dia <- fitx_dec %>%
 #pasar de format curt a format llarg per revisar les hores 
 #que NO son presencials o teletreball (estan com a 999)
 (fitx_long_check <- fitx_dec_mes_dia %>%
+  mutate(Horas = as.character(Horas)) %>%  
   pivot_longer(cols = c(Marcatges, Horas), names_to = "Tipo", values_to = "Valor") %>%
   pivot_wider(names_from = Dia, values_from = Valor))
 
