@@ -124,7 +124,8 @@ horas_data <- fitx_long_final %>% filter(Tipo == "Horas")
 
 # Columnes de desti (B a AF → 2 a 32)
 start_col <- 2  
-end_col <- 32  
+end_col <- 32
+start_Row <- 26 ## posa-ho a la fila 26, on estan les hores totals
 
 # Passar les hores a la fulla d'excel corresponent segons el mes
 for (i in 1:nrow(horas_data)) {
@@ -132,9 +133,9 @@ for (i in 1:nrow(horas_data)) {
   if (mes_num %in% names(mesos)) {
     sheet_name <- mesos[[mes_num]] 
     horas_valores <- as.numeric(horas_data[i, -c(1,2)])
-    writeData(timesheet, sheet_name, t(horas_valores), startCol = start_col, startRow = 11, colNames = FALSE)
+    writeData(timesheet, sheet_name, t(horas_valores), startCol = start_col, startRow = start_Row, colNames = FALSE)
   }
 }
 
 # Guardar arxiu
-saveWorkbook(timesheet, "output/timesheet_actualizado.xlsx", overwrite = TRUE)
+saveWorkbook(timesheet, "output/timesheet_actualizado3.xlsx", overwrite = TRUE)
