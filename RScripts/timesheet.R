@@ -86,6 +86,8 @@ diff_hours <- function(marcatge) {
   mutate(Horas_real = sapply(Marcatges, diff_hours, simplify = TRUE)) %>%
   mutate(Horas_real = ifelse(is.na(Horas_real), "0", Horas_real)))
 
+write.xlsx(fitx_dec_real, "output/hores_reals.xlsx")
+
 (fitx_dec <- fitx_dec_real %>%
   mutate(Horas_real = as.numeric(Horas_real)) %>%  
   mutate(Horas = ifelse(Horas_real > 10 & Horas_real < 999, 10, Horas_real)) %>%
